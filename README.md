@@ -87,20 +87,30 @@ without a paid plan.
 
 ### Cutover, in this order
 
-The site has to be reachable both before and after the DNS switch, so the build
-is parameterised:
+Current DNS state, measured while writing this (2026-10-06):
 
-1. **Now:** repo variable `PUBLIC_BASE_PATH=/static-shellhacks-2026`, and **no**
-   `public/CNAME` in the artifact. The site is served, fully styled, from
-   `https://weareinit.github.io/static-shellhacks-2026/`.
-2. **Point DNS** (at whichever registrar holds `shellhacks.net`; these are A
-   records, not a CNAME, because it is an apex domain):
-3. **Then:** add `public/CNAME` containing `shellhacks.net`, set
-   `PUBLIC_BASE_PATH=/` (or delete the variable), and push. GitHub provisions
-   the certificate once it can resolve the domain.
+```
+shellhacks.net      -> no A/AAAA records at all (nameservers are Route53's)
+www.shellhacks.net  -> CNAME weareinit.github.io + the Pages A records
+```
 
-Skipping step 1 and shipping `CNAME` with `base: "/"` first is what produced an
-unstyled page at the `github.io` path: Astro emits its own `/_astro/*` URLs from
+So the apex is already unpublished, and `www` already points at Pages but at no
+site that claims it. That makes the switch additive rather than a cutover: add
+the apex records and the archive is live.
+
+1. **Done:** repo variable `PUBLIC_BASE_PATH=/static-shellhacks-2026`, and no
+   `public/CNAME` in the artifact, so the build is correct under the Pages
+   project path.
+2. **To do:** add the apex records below in Route53, then set
+   `PUBLIC_BASE_PATH=/` (or delete the variable) and push. Adding
+   `public/CNAME` with `shellhacks.net` in it is optional belt-and-braces, but
+   note the Pages site has already registered that CNAME from the first deploy.
+   GitHub provisions the certificate once it can resolve the domain.
+3. Optional: repoint `www` at the apex (CNAME `shellhacks.net`) instead of
+   `weareinit.github.io`.
+
+Shipping a `base: "/"` build under the Pages project path is what produced an
+unstyled page at the `github.io` URL: Astro emits its own `/_astro/*` URLs from
 `base`, and they resolve against the domain root.
 
 DNS records for step 2:
