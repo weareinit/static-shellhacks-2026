@@ -36,7 +36,10 @@ jobs:
         # vendored, and shellhacks.net is the custom domain, so base stays "/".
         run: bun run build
         env:
-          PUBLIC_SITE_URL: https://shellhacks.net
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL || 'https://shellhacks.net' }}
+          # "/" once shellhacks.net resolves to Pages; the repo path before
+          # that, so the pre-DNS deployment is styled and navigable.
+          PUBLIC_BASE_PATH: ${{ vars.PUBLIC_BASE_PATH || '/' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

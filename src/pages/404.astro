@@ -2,6 +2,7 @@
 import ArchiveLayout from "@layouts/ArchiveLayout.astro";
 import ArcadeLauncher from "@/components/arcade/ArcadeLauncher";
 import BrickBreaker from "@/components/arcade/BrickBreaker";
+import { asset } from "@utils/assets";
 ---
 
 <ArchiveLayout
@@ -22,7 +23,7 @@ import BrickBreaker from "@/components/arcade/BrickBreaker";
         <p class="notfound-hint">move to play · click to serve and shoot</p>
       </div>
 
-      <a href="/" class="notfound-home">[ Return Home ]</a>
+      <a href={asset("/")} class="notfound-home">[ Return Home ]</a>
     </main>
   </div>
 

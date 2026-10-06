@@ -85,8 +85,25 @@ Push to `main`; `.github/workflows/deploy.yml` runs the checks, builds, and
 publishes `dist/` to GitHub Pages. The repo must be **public** for Pages to work
 without a paid plan.
 
-DNS (at whichever registrar holds `shellhacks.net`, not a CNAME, because this is
-an apex domain):
+### Cutover, in this order
+
+The site has to be reachable both before and after the DNS switch, so the build
+is parameterised:
+
+1. **Now:** repo variable `PUBLIC_BASE_PATH=/static-shellhacks-2026`, and **no**
+   `public/CNAME` in the artifact. The site is served, fully styled, from
+   `https://weareinit.github.io/static-shellhacks-2026/`.
+2. **Point DNS** (at whichever registrar holds `shellhacks.net`; these are A
+   records, not a CNAME, because it is an apex domain):
+3. **Then:** add `public/CNAME` containing `shellhacks.net`, set
+   `PUBLIC_BASE_PATH=/` (or delete the variable), and push. GitHub provisions
+   the certificate once it can resolve the domain.
+
+Skipping step 1 and shipping `CNAME` with `base: "/"` first is what produced an
+unstyled page at the `github.io` path: Astro emits its own `/_astro/*` URLs from
+`base`, and they resolve against the domain root.
+
+DNS records for step 2:
 
 ```
 A     185.199.108.153

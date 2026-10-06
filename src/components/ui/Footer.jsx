@@ -1,7 +1,7 @@
 import { DISCORD_INVITE_URL } from "@/constants/links";
 import { asset } from "@utils/assets";
 
-const PRIVACY_POLICY_URL = `/privacy`;
+const PRIVACY_POLICY_URL = asset("/privacy");
 
 export default function Footer() {
   return (
