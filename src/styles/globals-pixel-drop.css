@@ -1,0 +1,461 @@
+.pixel-drop-overlay {
+  align-items: center;
+  background: rgb(0 0 0 / 75%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 70;
+}
+
+.pixel-drop-dialog {
+  background: var(--color-landing-blue);
+  border: 4px solid var(--color-landing-bone);
+  box-shadow: 8px 8px 0 var(--color-landing-red);
+  color: var(--color-landing-bone);
+  font-family: "Century Gothic", sans-serif;
+  max-height: calc(100dvh - 2rem);
+  max-width: 42rem;
+  overscroll-behavior: contain;
+  overflow: auto;
+  padding: clamp(0.8rem, 3vw, 1.5rem);
+  user-select: none;
+  width: 100%;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.pixel-drop-header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.pixel-drop-header p,
+.pixel-drop-header h2 {
+  margin: 0;
+}
+.pixel-drop-header p {
+  color: var(--color-landing-gold);
+  font-size: 1rem;
+  font-weight: 700;
+}
+.pixel-drop-header h2 {
+  font-family: Nowduke, sans-serif;
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 400;
+  line-height: 0.85;
+}
+.pixel-drop-layout {
+  align-items: stretch;
+  display: flex;
+  gap: clamp(0.75rem, 3vw, 1.5rem);
+  justify-content: center;
+}
+.pixel-drop-board {
+  aspect-ratio: 1 / 2;
+  background: var(--color-landing-black);
+  border: 3px solid var(--color-landing-gold);
+  display: grid;
+  flex: 0 1 17rem;
+  grid-template-columns: repeat(10, 1fr);
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+}
+.pixel-drop-cell {
+  background: rgb(255 255 255 / 5%);
+  border: 1px solid rgb(255 255 255 / 7%);
+}
+.pixel-drop-cell.is-filled,
+.pixel-drop-glyph i.is-filled {
+  background: var(--pixel-color);
+  box-shadow:
+    inset 2px 2px 0 rgb(255 255 255 / 40%),
+    inset -2px -2px 0 rgb(0 0 0 / 25%);
+}
+.pixel-drop-cell.is-ghost {
+  background: transparent;
+  border-color: var(--pixel-color);
+  box-shadow: inset 0 0 0 2px var(--pixel-color);
+  opacity: 0.4;
+}
+.pixel-drop-stats {
+  container-type: inline-size;
+  display: flex;
+  flex: 0 0 clamp(8.5rem, 30%, 11rem);
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.pixel-drop-readout,
+.pixel-drop-next {
+  border: 2px solid var(--color-landing-bone);
+  padding: 0.45rem;
+}
+.pixel-drop-readout span,
+.pixel-drop-next > span {
+  color: var(--color-landing-gold);
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+.pixel-drop-readout strong {
+  display: block;
+  font-size: clamp(0.85rem, 3vw, 1.05rem);
+  letter-spacing: 0;
+}
+.pixel-drop-readout-row {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+}
+.pixel-drop-panel-row {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+}
+.pixel-drop-panel-row :where(.pixel-drop-next) {
+  min-width: 0;
+}
+.pixel-drop-readout-row :where(.pixel-drop-readout) {
+  min-width: 0;
+  padding: 0.35rem 0.25rem;
+}
+.pixel-drop-readout-row :where(.pixel-drop-readout) strong {
+  font-size: min(7.5cqi, 0.95rem);
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pixel-drop-glyph {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0.25rem auto 0;
+  max-width: 2.6rem;
+  width: 100%;
+}
+.pixel-drop-glyph i {
+  aspect-ratio: 1;
+  background: rgb(255 255 255 / 8%);
+  display: block;
+}
+.pixel-drop-glyph.is-muted {
+  opacity: 0.45;
+}
+.pixel-drop-next-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.pixel-drop-status {
+  color: var(--color-landing-gold);
+  font-size: 0.65rem;
+  font-weight: 700;
+  margin: auto 0 0;
+  text-align: center;
+}
+.pixel-drop-actions {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.35rem;
+  width: 100%;
+}
+.pixel-drop-actions > div {
+  align-items: center;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+}
+.pixel-drop-control-wrap {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.pixel-drop-actions button,
+.pixel-drop-control {
+  border: 2px solid var(--color-landing-bone);
+  background: var(--color-landing-black);
+  color: var(--color-landing-bone);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  min-height: 2.35rem;
+}
+.pixel-drop-actions button {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+  touch-action: manipulation;
+  width: 100%;
+}
+.pixel-drop-actions kbd,
+.pixel-drop-keymap {
+  color: var(--color-landing-gold);
+  font-family: "Century Gothic", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 0.2rem;
+}
+.pixel-drop-actions .is-gameover button {
+  animation: pixel-drop-play-again-border 0.8s steps(2, end) infinite;
+}
+.pixel-drop-actions button:hover:not(:disabled),
+.pixel-drop-actions button:focus-visible:not(:disabled),
+.pixel-drop-control:hover:not(:disabled),
+.pixel-drop-control:focus-visible:not(:disabled) {
+  background: var(--color-landing-red);
+  outline: none;
+}
+.pixel-drop-touch-controls {
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+  margin: 0.85rem 0 0;
+  min-inline-size: 0;
+  padding: 0;
+}
+.pixel-drop-control {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  touch-action: manipulation;
+  width: 100%;
+}
+.pixel-drop-touch-controls .pixel-drop-control-wrap {
+  flex: 0 0 clamp(2.25rem, 10vw, 3rem);
+}
+.pixel-drop-actions button:disabled,
+.pixel-drop-control:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.pixel-drop-hard-drop {
+  bottom: 0.2rem;
+  font-size: 0.45rem;
+  position: absolute;
+}
+.pixel-drop-clear {
+  animation: pixel-drop-clear 200ms steps(2, end) forwards;
+  background: var(--color-landing-bone);
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+.pixel-drop-board.is-locking {
+  animation: pixel-drop-lock 140ms steps(2, end);
+}
+.pixel-drop-banner {
+  align-items: center;
+  background: rgb(0 0 0 / 82%);
+  border: 2px solid var(--color-landing-gold);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  left: 50%;
+  max-width: 92%;
+  padding: 0.35rem 0.55rem;
+  pointer-events: none;
+  position: absolute;
+  text-align: center;
+  top: 6%;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+.pixel-drop-banner strong {
+  color: var(--color-landing-gold);
+  font-size: clamp(0.8rem, 4vw, 1.15rem);
+}
+.pixel-drop-start strong,
+.pixel-drop-gameover strong {
+  color: var(--color-landing-gold);
+  font-size: clamp(0.9rem, 4vw, 1.3rem);
+  font-weight: 700;
+}
+.pixel-drop-banner.is-tspin strong {
+  color: #5fe54c;
+}
+.pixel-drop-banner span {
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+.pixel-drop-banner-points {
+  color: var(--color-landing-gold);
+}
+.pixel-drop-start,
+.pixel-drop-gameover {
+  align-items: center;
+  background: rgb(0 0 0 / 72%);
+  color: var(--color-landing-bone);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  inset: 0;
+  justify-content: center;
+  padding: 0.5rem;
+  position: absolute;
+  text-align: center;
+  z-index: 2;
+}
+.pixel-drop-start span,
+.pixel-drop-gameover span {
+  font-size: 0.65rem;
+}
+.pixel-drop-help {
+  color: rgb(255 255 255 / 65%);
+  font-size: 0.6rem;
+  margin: 0.75rem 0 0;
+  text-align: center;
+}
+
+@keyframes pixel-drop-clear {
+  0% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pixel-drop-lock {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0 var(--color-landing-bone);
+  }
+  50% {
+    box-shadow: inset 0 0 0 4px var(--color-landing-bone);
+  }
+}
+
+@keyframes pixel-drop-play-again-border {
+  0%,
+  100% {
+    border-color: var(--color-landing-gold);
+    box-shadow: 0 0 0 transparent;
+  }
+  50% {
+    border-color: var(--color-landing-red);
+    box-shadow:
+      0 0 0 2px var(--color-landing-red),
+      0 0 14px var(--color-landing-red);
+    color: var(--color-landing-gold);
+  }
+}
+
+@media (max-width: 380px) {
+  .pixel-drop-touch-controls .pixel-drop-control-wrap {
+    flex-basis: 2.25rem;
+  }
+}
+
+/* Compact Pixel Drop chrome on narrow screens so the board fits without scrolling. */
+@media (max-width: 640px) {
+  .pixel-drop-dialog {
+    padding: 0.8rem;
+  }
+  .pixel-drop-header {
+    margin-bottom: 0.5rem;
+  }
+  .pixel-drop-header h2 {
+    font-size: clamp(1.5rem, 9vw, 2rem);
+  }
+  .pixel-drop-layout {
+    gap: 0.6rem;
+  }
+  .pixel-drop-help {
+    display: none;
+  }
+  .pixel-drop-touch-controls {
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+}
+
+/* Touch devices: larger hit targets, no keyboard hints. */
+@media (pointer: coarse) {
+  .pixel-drop-actions kbd,
+  .pixel-drop-keymap {
+    display: none;
+  }
+  .pixel-drop-touch-controls .pixel-drop-control-wrap {
+    flex: 0 0 clamp(2.75rem, 14vw, 3.25rem);
+  }
+  .pixel-drop-control {
+    min-height: 2.75rem;
+  }
+}
+
+/* Short viewports (landscape phones): size the board from the viewport height. */
+@media (max-height: 500px) {
+  .pixel-drop-header {
+    margin-bottom: 0.35rem;
+  }
+  .pixel-drop-header h2 {
+    font-size: 1.25rem;
+  }
+  .pixel-drop-header p {
+    font-size: 0.8rem;
+  }
+  .pixel-drop-board {
+    flex: none;
+    height: calc(100dvh - 15rem);
+    max-width: 100%;
+  }
+  .pixel-drop-help {
+    display: none;
+  }
+  .pixel-drop-touch-controls {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-drop-actions .is-gameover button {
+    animation: none;
+    border-color: var(--color-landing-red);
+  }
+  .pixel-drop-clear {
+    animation: none;
+    opacity: 0.5;
+  }
+  .pixel-drop-board.is-locking {
+    animation: none;
+  }
+  .hero-x-svg rect {
+    opacity: 0.9;
+    transition: none;
+  }
+  .hero-x-inview .hero-x-svg rect.hero-tw {
+    animation: none;
+    transform: none;
+  }
+  .hero-x-inview .hero-x-svg {
+    animation: none;
+  }
+  .hero-x,
+  .hero-x.hero-x-down {
+    transition: none;
+  }
+  .hero-x.hero-x-down {
+    opacity: 1;
+  }
+  .hero-x.hero-x-down .hero-x-svg rect {
+    opacity: 1;
+    animation: none;
+    transition: none;
+  }
+}

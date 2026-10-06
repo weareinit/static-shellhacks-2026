@@ -1,0 +1,122 @@
+@keyframes sponsor-banner-fly {
+  from {
+    transform: translateX(-65%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.sponsor-fly-scope {
+  view-timeline-name: --sponsor-fly-timeline;
+  view-timeline-axis: block;
+}
+
+.sponsor-banner-fly {
+  animation-name: sponsor-banner-fly;
+  animation-duration: auto;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: --sponsor-fly-timeline;
+  animation-range: entry 0% entry 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-banner-fly {
+    animation: none;
+  }
+}
+
+@keyframes sponsor-robot-hang {
+  from {
+    transform: rotate(-2.2deg);
+  }
+  to {
+    transform: rotate(2.2deg);
+  }
+}
+
+/* Sway only runs while the sponsor section is on screen (.sponsor-inview set
+   by an IntersectionObserver in Landing.jsx); offscreen robots stay static.
+   No will-change: Chromium auto-promotes transform animations when running. */
+.sponsor-robot-hang {
+  transform-origin: top center;
+}
+
+.sponsor-inview .sponsor-robot-hang {
+  animation-name: sponsor-robot-hang;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.sponsor-robot-hang-left {
+  animation-duration: 2.6s;
+}
+
+.sponsor-robot-hang-right {
+  animation-duration: 2.6s;
+  animation-delay: -0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-inview .sponsor-robot-hang {
+    animation: none;
+  }
+}
+
+@keyframes checkerboard-block-fall {
+  0% {
+    transform: translateY(var(--cb-fall, -320px));
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes checkerboard-block-color {
+  0% {
+    background-color: var(--cb-color, var(--checkerboard-blue));
+  }
+  100% {
+    background-color: var(--checkerboard-blue);
+  }
+}
+
+.checkerboard-fall-block {
+  --checkerboard-blue: #5caae2;
+  transform: translateY(var(--cb-fall, -320px));
+  opacity: 0;
+  background-color: var(--checkerboard-blue);
+  pointer-events: none;
+}
+
+/* Decorative stack: a plain block, no button reset needed. In the app this was
+   `.checkerboard-game-trigger` and was an interactive button; the arcade
+   launcher replaced it. */
+.checkerboard-stack {
+  display: block;
+}
+
+.checkerboard-fall-block.checkerboard-fall-in {
+  animation-name: checkerboard-block-fall, checkerboard-block-color;
+  animation-duration: var(--cb-duration, 1.1s);
+  animation-delay: var(--cb-delay, 0ms);
+  animation-timing-function: linear, steps(1, jump-end);
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkerboard-fall-block {
+    transform: none;
+    opacity: 1;
+  }
+  .checkerboard-fall-block.checkerboard-fall-in {
+    animation: none;
+  }
+}

@@ -1,0 +1,133 @@
+html {
+  overscroll-behavior: none;
+  color-scheme: only dark;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "Nowduke";
+  src:
+    url("/fonts/Nowduke-Regular.ttf") format("truetype"),
+    url("/fonts/Nowduke-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/gothic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/century-gothic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/century-gothic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Century Gothic";
+  src: url("/fonts/gothicb.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-nowduke: "Nowduke", sans-serif;
+  --font-century: "Century Gothic", sans-serif;
+  --color-bone: #e9e7e0;
+  --color-gold: #ffdc5e;
+  --color-dark-navy: #0d172b;
+  --color-navy: #172438;
+  --color-gravy: #3e495b;
+  --color-landing-bone: #e9e7e0;
+  --color-landing-gold: #ffdc5e;
+  --color-landing-blue: #2c176c;
+  --color-landing-red: #d80813;
+  --color-landing-pink: #f97d7d;
+  --color-landing-black: #1f1f1f;
+  --breakpoint-xxs: 20rem; /* 320px */
+  --breakpoint-xs: 29rem; /* 475px */
+}
+
+:root {
+  /* The archive has no navbar. The tokens are kept because AboutSection sizes
+     its wordmark against --navbar-desktop-width; with no sidebar to clear, the
+     reserved gutter is zero. Do not reintroduce `has-app-navbar` offsets: the
+     app that needed them is a different repository. */
+  --navbar-desktop-width: 0rem;
+  --navbar-desktop-expanded-width: 0rem;
+  --navbar-mobile-bottom-height: 0rem;
+  --navbar-mobile-bottom-clearance: 0rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+}
+
+/* ── Global scrollbar styling ── */
+html {
+  scrollbar-color: oklch(1 0 0 / 20%) transparent;
+}
+
+.dark html {
+  scrollbar-color: oklch(1 0 0 / 15%) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.55 0.02 260 / 30%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.55 0.02 260 / 50%);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: oklch(0.75 0.01 260 / 20%);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.75 0.01 260 / 35%);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}

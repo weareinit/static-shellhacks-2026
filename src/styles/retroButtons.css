@@ -1,0 +1,346 @@
+/* 3D retro push button (ported from raihven's CodePen LERdKQY) */
+
+.retro-btn {
+  --rb-face: #ec4e53;
+  --rb-side: #7e2f2f;
+  --rb-border: #a83c3c;
+  --rb-text: #f3ede1;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-transform: uppercase;
+  background: none;
+  font-family:
+    var(--century-gothic),
+    Century Gothic,
+    Futura,
+    sans-serif;
+}
+
+.retro-btn.inactive {
+  --rb-face: #eb2029;
+  --rb-side: #5e1f1f;
+  --rb-border: #970e14;
+}
+
+.retro-btn.active {
+  --rb-face: #a41e21;
+  --rb-side: #47191a;
+  --rb-border: #680a0e;
+  --rb-text: #ddd3c5;
+}
+
+/* transient states re-scope vars on .btn itself,
+   so the nearest definition always wins (no selector wars) */
+.retro-btn .btn:hover {
+  --rb-text: #d0c5b6;
+  --rb-border: rgba(18, 18, 18, 0.5);
+  --rb-face: #a01a21;
+}
+.retro-btn .btn.btn-active {
+  --rb-text: #bfb3a4;
+  --rb-border: rgba(15, 15, 15, 0.6);
+}
+
+.retro-btn .btn {
+  user-select: none;
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 54px;
+  padding-top: 3px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 50px;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  transition: opacity 0.1s ease-out;
+  z-index: 5;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+.retro-btn .btn,
+.retro-btn .btn:focus {
+  outline: none;
+}
+
+.retro-btn .btn:focus-visible {
+  outline: 2px solid #f97d7d;
+  outline-offset: 2px;
+}
+
+.retro-btn .btn:hover .btn-content-inner:before {
+  background-color: rgba(13, 13, 13, 0.1);
+}
+
+/* bottom drop slab */
+.retro-btn .btn:before {
+  content: " ";
+  background-color: rgba(13, 13, 13, 0.3);
+  width: calc(100% - 2px);
+  height: calc(100% - 4px);
+  bottom: -1px;
+  left: 1px;
+  position: absolute;
+  border-radius: 3px;
+  z-index: 1;
+  transition:
+    transform 0.12s ease-out,
+    background 0.12s ease-out;
+}
+
+/* hover tilt thirds - driven purely by CSS hit zones (:has), no mousemove JS */
+.retro-btn .btn-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  cursor: pointer;
+}
+.retro-btn .btn-zone-left {
+  left: 0;
+  width: 30%;
+}
+.retro-btn .btn-zone-center {
+  left: 30%;
+  width: 35%;
+}
+.retro-btn .btn-zone-right {
+  left: 65%;
+  width: 35%;
+}
+
+/* face */
+.retro-btn .btn-inner .content-wrapper .btn-content {
+  background-color: var(--rb-face);
+  color: #e9e7e0;
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  border: 1px solid var(--rb-border);
+  box-sizing: border-box;
+  z-index: 3;
+  overflow: hidden;
+  padding: 0 16px;
+  transition:
+    border 0.185s ease-out,
+    transform 0.185s ease-out,
+    background 0.185s ease-out,
+    color 0.185s ease-out;
+}
+
+.retro-btn .btn:has(.btn-zone-left:hover):before {
+  transform: skewY(1deg) translate3d(0, -0.5px, 0);
+}
+.retro-btn .btn:has(.btn-zone-left:hover) .btn-content {
+  transform: skewY(-1deg);
+}
+.retro-btn .btn:has(.btn-zone-right:hover):before {
+  transform: skewY(-1deg) translate3d(0, -0.5px, 0);
+}
+.retro-btn .btn:has(.btn-zone-right:hover) .btn-content {
+  transform: skewY(1deg);
+}
+.retro-btn .btn:has(.btn-zone-center:hover):before {
+  transform: translate3d(0, -2.5px, 0);
+}
+.retro-btn .btn:has(.btn-zone-center:hover) .btn-content {
+  transform: translate3d(0, 1.75px, 0);
+}
+
+/* side-hover sheen: shaded toward cursor, lit away */
+.retro-btn
+  .btn:has(.btn-zone-left:hover)
+  .btn-inner
+  .content-wrapper
+  .btn-content {
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0.08)
+  );
+}
+.retro-btn
+  .btn:has(.btn-zone-right:hover)
+  .btn-inner
+  .content-wrapper
+  .btn-content {
+  background-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0),
+    rgba(255, 255, 255, 0.08)
+  );
+}
+
+/* selected tab holds the clicked (pressed) pose, with the dark-red hover tone,
+   until another option is picked */
+.retro-btn.active .btn:not(.btn-left):not(.btn-right):not(.btn-center):before {
+  transform: translate3d(0, -1.5px, 0);
+}
+.retro-btn.active
+  .btn:not(.btn-left):not(.btn-right):not(.btn-center)
+  .btn-content {
+  transform: translate3d(0, 1.25px, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retro-btn .btn,
+  .retro-btn .btn:before,
+  .retro-btn .btn-inner .content-wrapper,
+  .retro-btn .btn-inner .content-wrapper:before,
+  .retro-btn .btn-inner .content-wrapper .btn-content,
+  .retro-btn .btn-inner .content-wrapper .btn-content .btn-content-inner {
+    transition: none;
+  }
+}
+
+.retro-btn .btn-inner {
+  display: block;
+  height: 100%;
+}
+
+.retro-btn .btn-inner .content-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: calc(100% - 3px);
+  margin-top: -3px;
+}
+
+.retro-btn .btn-inner .content-wrapper:before,
+.retro-btn .btn-inner .content-wrapper:after,
+.retro-btn .btn-inner .content-wrapper .btn-content:before,
+.retro-btn .btn-inner .content-wrapper .btn-content:after,
+.retro-btn .btn-inner .content-wrapper .btn-content .btn-content-inner:before {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* darker side/base slab */
+.retro-btn .btn-inner .content-wrapper:before {
+  background-color: var(--rb-side);
+  content: " ";
+  border-radius: 3px;
+  top: auto;
+  bottom: -3px;
+  z-index: 1;
+  transition:
+    transform 0.185s ease-out,
+    background 0.185s ease-out;
+}
+
+.retro-btn .btn-inner .content-wrapper:after {
+  background-color: rgba(13, 13, 13, 0.15);
+  content: " ";
+  border-radius: 3px;
+  z-index: 3;
+  width: 0;
+  top: 2px;
+}
+
+.retro-btn .btn-inner .content-wrapper .btn-content:before,
+.retro-btn .btn-inner .content-wrapper .btn-content:after {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  opacity: 0;
+  transition:
+    opacity 0.1125s ease-out 0.05s,
+    transform 0.185s ease-out 0.05s;
+}
+
+.retro-btn .btn-inner .content-wrapper .btn-content:before {
+  content: " ";
+  transform: translate3d(0, 50%, 0);
+}
+
+.retro-btn .btn-inner .content-wrapper .btn-content:after {
+  content: " ";
+  transform: translate3d(0, -50%, 0);
+}
+
+/* label text lives in :before via attr(label), like the pen */
+.retro-btn .btn-inner .content-wrapper .btn-content .btn-content-inner {
+  display: block;
+  transition: opacity 75ms ease-out 0.1125s;
+}
+
+.retro-btn .btn-inner .content-wrapper .btn-content .btn-content-inner:before {
+  content: attr(label);
+  padding-top: 0;
+  font-size: 1.2em;
+  font-family: inherit;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #f7f1e6;
+  text-shadow:
+    -1px -1px 0 rgba(255, 255, 255, 0.3),
+    0 1px 0 #8a7f6c,
+    0 2px 0 #4a4336,
+    0 5px 8px rgba(0, 0, 0, 0.5);
+  transition:
+    opacity 0.3s ease-out,
+    background-color 0.1125s ease-in,
+    color 0.185s ease-out;
+  opacity: 1;
+  z-index: -1;
+}
+
+/* pressed: declared last so it wins over hover and selected-tab poses */
+/* biome-ignore lint/style/noDescendingSpecificity: The later reduced-motion override intentionally targets this pressed state at equal specificity. */
+.retro-btn .btn.btn-active .btn-inner .content-wrapper .btn-content {
+  background-color: #721819;
+  background-image: none;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-top-width: 4px;
+  border-bottom-width: 1px;
+  transition:
+    transform 0.12s ease-out,
+    background 0.12s ease-out,
+    color 0.12s ease-out;
+  transform: translate3d(0, 2.5px, 0);
+}
+.retro-btn .btn.btn-active:before {
+  transform: translate3d(0, -4px, 0);
+}
+
+/* Narrow phones: the 2-column tab grid leaves too little width for longer
+   labels ("SPONSOR FAIR", "WORKSHOPS") at the default size, clipping them
+   against .btn-content's overflow:hidden. Shrink the label and tighten
+   padding/letter-spacing so every label fits. */
+@media (max-width: 380px) {
+  .retro-btn .btn-inner .content-wrapper .btn-content {
+    padding: 0 6px;
+  }
+  .retro-btn
+    .btn-inner
+    .content-wrapper
+    .btn-content
+    .btn-content-inner:before {
+    font-size: 0.85em;
+    letter-spacing: 0.02em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retro-btn .btn.btn-active .btn-inner .content-wrapper .btn-content {
+    transition: none;
+  }
+}

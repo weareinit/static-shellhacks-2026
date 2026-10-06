@@ -1,0 +1,19 @@
+/* Archive stylesheet entry.
+ *
+ * Deliberately smaller than the app's globals.css. Dropped here:
+ *   shadcn/tailwind.css  - the landing surface uses no shadcn utility
+ *                          (verified: no scroll-fade/shimmer/no-scrollbar/
+ *                          animate-in/data-state usage in any ported file)
+ *   tw-animate-css       - same reason, no tw-* utility is referenced
+ *   scroll-fade.css      - vendored shadcn helper, unused by the archive
+ *   globals-nav.css      - navbar chrome
+ *   globals-mlh-badge.css- navbar/badge chrome
+ *   globals-view-transitions.css - ClientRouter view transitions, no router here
+ */
+@import "tailwindcss";
+@import "@fontsource-variable/figtree";
+@import "./globals-base.css";
+@import "./globals-tokens.css";
+@import "./globals-pixel-drop.css";
+@import "./landing.css";
+@import "./globals-arcade.css";

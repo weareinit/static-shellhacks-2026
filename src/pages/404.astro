@@ -1,0 +1,109 @@
+---
+import ArchiveLayout from "@layouts/ArchiveLayout.astro";
+import ArcadeLauncher from "@/components/arcade/ArcadeLauncher";
+import BrickBreaker from "@/components/arcade/BrickBreaker";
+---
+
+<ArchiveLayout
+  title="ShellHacks - Not Found"
+  description="This page doesn't exist."
+>
+  <div class="notfound">
+    <div class="notfound-scanlines" aria-hidden="true"></div>
+    <div class="notfound-vignette" aria-hidden="true"></div>
+
+    <main class="notfound-main">
+      <p class="notfound-copy">This page doesn't exist.</p>
+
+      {/* The game *is* the 404, as it was in the app. Same component as the
+          arcade modal; the distinct bestKey keeps the two hiscores separate. */}
+      <div class="notfound-game">
+        <BrickBreaker client:load bestKey="lite-pong-best-404" showHint={false} />
+        <p class="notfound-hint">move to play · click to serve and shoot</p>
+      </div>
+
+      <a href="/" class="notfound-home">[ Return Home ]</a>
+    </main>
+  </div>
+
+  <ArcadeLauncher client:load />
+</ArchiveLayout>
+
+<style is:global>
+  /* The 404 surface: same arcade palette the game is drawn in, so the page and
+     the bricks read as one thing. Styles live here because this page is the
+     only place they apply. */
+  .notfound {
+    background: #0f0804;
+    min-height: 100dvh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .notfound-scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgb(0 0 0 / 6%) 2px,
+      rgb(0 0 0 / 6%) 4px
+    );
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .notfound-vignette {
+    box-shadow:
+      inset 0 0 80px rgb(143 192 255 / 10%),
+      inset 0 0 160px rgb(143 192 255 / 5%);
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+  }
+
+  .notfound-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 34rem;
+    min-height: 100%;
+    padding: 2rem 1rem;
+    position: relative;
+    text-align: center;
+    z-index: 3;
+  }
+
+  .notfound-copy {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 1rem 0 0;
+    color: rgb(143 192 255 / 70%);
+  }
+
+  .notfound-game {
+    margin-top: 2rem;
+    max-width: 22.5rem;
+    width: 100%;
+  }
+
+  .notfound-hint {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.75rem;
+    margin: 0.5rem 0 0;
+    color: rgb(143 192 255 / 50%);
+  }
+
+  .notfound-home {
+    color: #ffb000;
+    display: inline-block;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.875rem;
+    margin-top: 1.5rem;
+    text-decoration: underline;
+  }
+</style>

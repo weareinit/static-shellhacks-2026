@@ -1,0 +1,215 @@
+/* Arcade: the floating launcher button, the shared game modal, the game
+ * picker cards, and the Brick Breaker chrome.
+ *
+ * Pixel Drop keeps its own styles (globals-pixel-drop.css) because it renders
+ * its own overlay; everything here is styled to sit next to it without
+ * pretending to be the same component. */
+
+.arcade-fab {
+  align-items: center;
+  background: var(--color-landing-red);
+  border: 3px solid var(--color-landing-bone);
+  border-radius: 9999px;
+  bottom: clamp(1rem, 3vw, 2rem);
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 0.55);
+  color: var(--color-landing-bone);
+  cursor: pointer;
+  display: flex;
+  height: 3.5rem;
+  justify-content: center;
+  position: fixed;
+  right: clamp(1rem, 3vw, 2rem);
+  transition: transform 200ms ease-out;
+  width: 3.5rem;
+  z-index: 60;
+}
+
+.arcade-fab:hover {
+  transform: scale(1.06);
+}
+.arcade-fab:active {
+  transform: scale(0.96);
+}
+.arcade-fab:focus-visible {
+  outline: 3px solid var(--color-landing-gold);
+  outline-offset: 3px;
+}
+
+/* Slow pulse so the button reads as an entry point without nagging. */
+.arcade-fab-ring {
+  animation: arcade-pulse 2.8s ease-out infinite;
+  border: 2px solid var(--color-landing-bone);
+  border-radius: 9999px;
+  inset: -3px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+@keyframes arcade-pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-fab,
+  .arcade-fab-ring {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* ── Shared modal ── */
+
+.game-modal-overlay {
+  align-items: center;
+  background: rgb(0 0 0 / 75%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  padding: 1rem;
+  position: fixed;
+  z-index: 70;
+}
+
+.game-modal-dialog {
+  background: var(--color-landing-blue);
+  border: 4px solid var(--color-landing-bone);
+  box-shadow: 8px 8px 0 var(--color-landing-red);
+  color: var(--color-landing-bone);
+  font-family: "Century Gothic", sans-serif;
+  max-height: calc(100dvh - 2rem);
+  max-width: 34rem;
+  overflow: auto;
+  padding: clamp(0.8rem, 3vw, 1.5rem);
+  width: 100%;
+}
+
+.game-modal-header {
+  align-items: flex-start;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.game-modal-title {
+  font-family: Nowduke, sans-serif;
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
+  font-weight: 400;
+  line-height: 0.9;
+  margin: 0;
+}
+
+.game-modal-subtitle {
+  color: var(--color-landing-gold);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 0.35rem 0 0;
+}
+
+.game-modal-close {
+  background: transparent;
+  border: 2px solid var(--color-landing-bone);
+  border-radius: 6px;
+  color: var(--color-landing-bone);
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+}
+.game-modal-close:hover {
+  background: var(--color-landing-bone);
+  color: var(--color-landing-blue);
+}
+.game-modal-close:focus-visible {
+  outline: 3px solid var(--color-landing-gold);
+  outline-offset: 2px;
+}
+
+/* ── Picker ── */
+
+.arcade-picker {
+  display: grid;
+  gap: clamp(0.75rem, 3vw, 1.25rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.arcade-card {
+  background: rgb(0 0 0 / 25%);
+  border: 3px solid var(--arcade-accent, var(--color-landing-bone));
+  border-radius: 10px;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font: inherit;
+  gap: 0.4rem;
+  padding: clamp(0.9rem, 3vw, 1.4rem);
+  text-align: left;
+  transition:
+    transform 150ms ease-out,
+    background-color 150ms ease-out;
+  width: 100%;
+}
+
+.arcade-card:hover {
+  background: rgb(0 0 0 / 45%);
+  transform: translateY(-2px);
+}
+.arcade-card:focus-visible {
+  outline: 3px solid var(--color-landing-gold);
+  outline-offset: 3px;
+}
+
+.arcade-card-name {
+  font-family: Nowduke, sans-serif;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  line-height: 1;
+}
+
+.arcade-card-blurb {
+  color: var(--color-landing-bone);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* ── Brick Breaker chrome ── */
+
+.brick-hiscore {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  margin: 0 0 0.25rem;
+  opacity: 0.7;
+  text-align: left;
+}
+
+.brick-canvas {
+  background: #0f0804;
+  border: 1px solid rgb(143 192 255 / 30%);
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  max-width: 360px;
+  width: 100%;
+}
+
+.brick-hint {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  opacity: 0.5;
+  text-align: center;
+}

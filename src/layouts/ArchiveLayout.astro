@@ -1,0 +1,52 @@
+---
+import "../styles/globals.css";
+import { asset } from "@utils/assets";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "ShellHacks",
+  description = "ShellHacks 2026 - Florida's largest hackathon, September 25-27 at FIU's Graham Center.",
+} = Astro.props;
+
+// The wear/grain textures are applied from CSS pseudo-elements, which cannot
+// call asset() themselves, so the resolved URLs are handed to globals-hero.css
+// as custom properties here.
+const wearTextureVars = [
+  ["--wear-paper", "/landing/bgtexture.webp"],
+  ["--wear-grit", "/landing/grit_speckle.webp"],
+  ["--wear-dust", "/landing/dust_speckle.webp"],
+]
+  .map(([name, path]) => `${name}: url("${asset(path)}");`)
+  .join("");
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href={asset("/favicon.svg")} />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="only dark" />
+    <meta name="theme-color" content="#2c176c" />
+    <link rel="preload" href="/fonts/Nowduke-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/century-gothic.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/gothicb.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+    <style is:inline set:html={`:root{${wearTextureVars}}`}></style>
+    <slot name="head" />
+  </head>
+  <body class="min-h-dvh bg-background text-foreground relative">
+    <slot />
+  </body>
+</html>

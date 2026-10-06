@@ -1,0 +1,7 @@
+/* Landing-page sections only.
+ * globals-pixel-drop.css is intentionally NOT here: Pixel Drop is also mounted
+ * by the arcade launcher on /404, which does not import landing.css. It is
+ * pulled in once by globals.css instead. */
+@import "./globals-hero.css";
+@import "./globals-organizers.css";
+@import "./globals-sponsors.css";
